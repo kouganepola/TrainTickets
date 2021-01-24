@@ -231,8 +231,14 @@ public class Selection extends javax.swing.JFrame {
                 ResultSet rs = DBExecution.getInstance().selectStationByStCode(codetxt.getText());
 
                 if (rs.next()) {
-                    StationDemo funct = new StationDemo(this);
-                    funct.setVisible(true);
+                    
+                    if(parent instanceof UserFunctions){
+                        StationDataForm form = new StationDataForm(this);
+                        form.setVisible(true);
+                    }else if (parent instanceof ShowDataFunctions){
+                        StationDataView view = new StationDataView(this);
+                        view.setVisible(true);
+                    }
                     setVisible(false);
                 } else {
                     JOptionPane.showMessageDialog(null, "Invalid ST CODE!");
@@ -247,6 +253,17 @@ public class Selection extends javax.swing.JFrame {
 
     }//GEN-LAST:event_okButtonActionPerformed
 
+    public String getYear(){
+        return yeartxt.getValue().toString();
+    }
+    
+    public String getMonth(){
+        return monthtxt.getValue().toString();
+    }
+        
+    public String getStation(){
+        return codetxt.getText();
+    }
 
     private void yeartxtStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_yeartxtStateChanged
         // TODO add your handling code here:
@@ -280,7 +297,7 @@ public class Selection extends javax.swing.JFrame {
                     ResultSet rs = DBExecution.getInstance().selectStationByStCode(codetxt.getText());
 
                     if (rs.next()) {
-                        StationDemo funct = new StationDemo(this);
+                        StationDataForm funct = new StationDataForm(this);
                       
                         funct.setVisible(true);
                         setVisible(false);

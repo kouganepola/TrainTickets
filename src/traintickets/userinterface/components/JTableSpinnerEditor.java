@@ -28,7 +28,6 @@ public class JTableSpinnerEditor extends DefaultCellEditor{
     private static JSpinner spinner;
     private final JSpinner.DefaultEditor editor;
     private JTextField textField;
-    private boolean valueSet;
 
     // Initializes the spinner.
     public JTableSpinnerEditor() {
@@ -38,25 +37,37 @@ public class JTableSpinnerEditor extends DefaultCellEditor{
         editor = ((JSpinner.DefaultEditor)spinner.getEditor());
         textField = editor.getTextField();
         
-        textField.addFocusListener( new FocusListener() {
+        spinner.addFocusListener( new FocusListener() {
             @Override
             public void focusGained( FocusEvent fe ) {
                 System.err.println("Got focus");
-                //textField.setSelectionStart(0);
-                //textField.setSelectionEnd(1);
                 SwingUtilities.invokeLater(() -> {
-                    if ( valueSet ) {
-                        textField.setCaretPosition(1);
-                    }
+                    textField.requestFocus();
                 });
             }
             @Override
             public void focusLost( FocusEvent fe ) {
             }
         });
+        
+        textField.addFocusListener( new FocusListener() {
+            @Override
+            public void focusGained( FocusEvent fe ) {
+                System.err.println("Got focus");
+                SwingUtilities.invokeLater(() -> {
+                    textField.selectAll();
+                });
+            }
+            @Override
+            public void focusLost( FocusEvent fe ) {
+            }
+        });
+        
         textField.addActionListener((ActionEvent ae) -> {
             stopCellEditing();
         });
+        
+        
     }
 
     // Prepares the spinner component and returns it.
@@ -64,7 +75,7 @@ public class JTableSpinnerEditor extends DefaultCellEditor{
     public Component getTableCellEditorComponent(
         JTable table, Object value, boolean isSelected, int row, int column
     ) {
-        if (!valueSet && value!=null && value != "") {
+        if (value!=null && value != "") {
             spinner.setValue(value);
         }
         else {
@@ -72,22 +83,12 @@ public class JTableSpinnerEditor extends DefaultCellEditor{
         }
         SwingUtilities.invokeLater(textField::requestFocus);
         return spinner;
+        
     }
 
     @Override
     public boolean isCellEditable( EventObject eo ) {
         System.err.println("isCellEditable");
-        if ( eo instanceof KeyEvent ) {
-            KeyEvent ke = (KeyEvent)eo;
-            System.err.println("key event: "+ke.getKeyChar());
-            textField.setText(String.valueOf(ke.getKeyChar()));
-            //textField.select(1,1);
-            //textField.setCaretPosition(1);
-            //textField.moveCaretPosition(1);
-            valueSet = true;
-        } else {
-            valueSet = false;
-        }
         return true;
     }
 

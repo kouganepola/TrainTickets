@@ -4,21 +4,24 @@
  * and open the template in the editor.
  */
 
-package traintickets;
+package traintickets.userinterface;
 
-import traintickets.userinterface.Functions;
+import traintickets.userinterface.UserFunctions;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
+import traintickets.annOverSelect;
+import traintickets.annStatSelect;
+import traintickets.monthOverSelect;
 
 /**
  *
  * @author USER
  */
-public class showSelect extends javax.swing.JFrame {
+public class ShowDataFunctions extends javax.swing.JFrame {
 
     /** Creates new form showSelect */
-    public showSelect(JFrame parent) {
+    public ShowDataFunctions(JFrame parent) {
         initComponents();
         this.parent = parent;
         Toolkit toolkit = getToolkit();
@@ -39,8 +42,6 @@ public class showSelect extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         monthlyOverall = new javax.swing.JButton();
         monthlyStation = new javax.swing.JButton();
-        annuallyOverall = new javax.swing.JButton();
-        annuallyStation = new javax.swing.JButton();
         backButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -50,7 +51,7 @@ public class showSelect extends javax.swing.JFrame {
 
         monthlyOverall.setBackground(new java.awt.Color(0, 204, 204));
         monthlyOverall.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        monthlyOverall.setText("Monthly Overall");
+        monthlyOverall.setText("Overall");
         monthlyOverall.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 monthlyOverallActionPerformed(evt);
@@ -63,24 +64,6 @@ public class showSelect extends javax.swing.JFrame {
         monthlyStation.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 monthlyStationActionPerformed(evt);
-            }
-        });
-
-        annuallyOverall.setBackground(new java.awt.Color(0, 204, 204));
-        annuallyOverall.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        annuallyOverall.setText("Annually Overall ");
-        annuallyOverall.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                annuallyOverallActionPerformed(evt);
-            }
-        });
-
-        annuallyStation.setBackground(new java.awt.Color(0, 204, 204));
-        annuallyStation.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        annuallyStation.setText("Annually Station");
-        annuallyStation.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                annuallyStationActionPerformed(evt);
             }
         });
 
@@ -100,9 +83,7 @@ public class showSelect extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(112, 112, 112)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(annuallyOverall, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(monthlyStation, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(annuallyStation, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(monthlyStation, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
                     .addComponent(backButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(monthlyOverall, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(112, 112, 112))
@@ -115,15 +96,11 @@ public class showSelect extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(monthlyOverall)
                 .addGap(18, 18, 18)
-                .addComponent(annuallyOverall)
-                .addGap(18, 18, 18)
-                .addComponent(annuallyStation)
-                .addGap(18, 18, 18)
                 .addComponent(backButton)
-                .addContainerGap(51, Short.MAX_VALUE))
+                .addGap(52, 52, 52))
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 300));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 220));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -138,37 +115,20 @@ public class showSelect extends javax.swing.JFrame {
     private void monthlyStationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_monthlyStationActionPerformed
         // TODO add your handling code here:
                 
-        monthStatSelect select = new monthStatSelect(this);
+        Selection select = new Selection(this);
         select.setVisible(true);
         setVisible(false);
     }//GEN-LAST:event_monthlyStationActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
         // TODO add your handling code here:
-        Functions funct = new Functions();
+        UserFunctions funct = new UserFunctions();
         funct.setVisible(true);
         setVisible(false);
     }//GEN-LAST:event_backButtonActionPerformed
 
-    private void annuallyOverallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_annuallyOverallActionPerformed
-        // TODO add your handling code here:
-        annOverSelect sele = new annOverSelect(this);
-        sele.setVisible(true);
-        setVisible(false);
-        
-    }//GEN-LAST:event_annuallyOverallActionPerformed
-
-    private void annuallyStationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_annuallyStationActionPerformed
-        // TODO add your handling code here:
-        annStatSelect sele = new annStatSelect(this);
-        sele.setVisible(true);
-        setVisible(false);
-    }//GEN-LAST:event_annuallyStationActionPerformed
-
     private JFrame parent;
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton annuallyOverall;
-    private javax.swing.JButton annuallyStation;
     private javax.swing.JButton backButton;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton monthlyOverall;

@@ -5,7 +5,7 @@
  */
 package traintickets;
 
-import traintickets.userinterface.Functions;
+import traintickets.userinterface.UserFunctions;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
@@ -137,7 +137,7 @@ public class yearMonthSelect extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        Functions funct = new Functions();
+        UserFunctions funct = new UserFunctions();
         funct.setVisible(true);
         setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed

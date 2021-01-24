@@ -7,18 +7,17 @@ package traintickets.userinterface;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import traintickets.showSelect;
 
 /**
  *
  * @author Sanduni Alwis
  */
-public class Functions extends javax.swing.JFrame {
+public class UserFunctions extends javax.swing.JFrame {
 
     /**
      * Creates new form functions
      */
-    public Functions() {
+    public UserFunctions() {
         initComponents();
         setResizable(false);
         Toolkit toolkit = getToolkit();
@@ -182,21 +181,21 @@ public class Functions extends javax.swing.JFrame {
 
     private void showDataButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showDataButtonActionPerformed
         // TODO add your handling code here:
-        showSelect showSelection = new showSelect(this);
+        ShowDataFunctions showSelection = new ShowDataFunctions(this);
         showSelection.setVisible(true);
         setVisible(false);
     }//GEN-LAST:event_showDataButtonActionPerformed
 
     private void summaryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_summaryButtonActionPerformed
         // TODO add your handling code here:
-        showSelect showSelection = new showSelect(this);
+        ShowDataFunctions showSelection = new ShowDataFunctions(this);
         showSelection.setVisible(true);
         setVisible(false);
     }//GEN-LAST:event_summaryButtonActionPerformed
 
     private void printDataButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printDataButtonActionPerformed
         // TODO add your handling code here:
-        showSelect showSelection = new showSelect(this);
+        ShowDataFunctions showSelection = new ShowDataFunctions(this);
         showSelection.setVisible(true);
         setVisible(false);
     }//GEN-LAST:event_printDataButtonActionPerformed

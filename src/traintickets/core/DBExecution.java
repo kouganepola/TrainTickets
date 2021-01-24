@@ -112,4 +112,30 @@ public class DBExecution {
               
             conn.commit();
     }
+    
+    public ResultSet getStationTicketDataofMonth(Integer year,String month,String origin) throws SQLException, ClassNotFoundException{
+        
+            Connection con = DBConnector.getDBConnection();
+            String sql1 = "Select `to`, 1stCls, 2ndCls,3rdClsA, 3rdClsB, 3rdClsC, total from travelled_tickets where `from`=? and year=? and month=?";
+            PreparedStatement pst = con.prepareStatement(sql1);
+            pst.setString(1, origin);
+            pst.setInt(2, year);
+            pst.setString(3, month);
+            ResultSet rs = pst.executeQuery();
+            
+            return rs;            
+    }
+    
+    public ResultSet getAggregateStationDataofMonth(Integer year,String month,String origin) throws SQLException, ClassNotFoundException{
+        
+            Connection con = DBConnector.getDBConnection();
+            String sql1 = "Select booked_tkt, returned_tkt from aggregate_counts where origin=? and year=? and month=?";
+            PreparedStatement pst = con.prepareStatement(sql1);
+            pst.setString(1, origin);
+            pst.setInt(2, year);
+            pst.setString(3, month);
+            ResultSet rs = pst.executeQuery();
+            
+            return rs;            
+    }
 }

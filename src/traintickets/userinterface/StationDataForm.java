@@ -7,14 +7,13 @@ package traintickets.userinterface;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.sql.Connection;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
+import javax.swing.ActionMap;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import traintickets.core.DBConnector;
 import traintickets.core.DBExecution;
 import traintickets.userinterface.components.ComboBoxRenderer;
 import traintickets.userinterface.components.JSpinnerRenderer;
@@ -24,13 +23,13 @@ import traintickets.userinterface.components.JTableSpinnerEditor;
  *
  * @author Sanduni Alwis
  */
-public class StationDemo extends javax.swing.JFrame {
+public class StationDataForm extends javax.swing.JFrame {
 
     /**
      * Creates new form stationDemo
      * @param parent
      */
-    public StationDemo(JFrame parent) {
+    public StationDataForm(Selection parent) {
         initComponents();
 
         Toolkit toolkit = getToolkit();
@@ -42,14 +41,13 @@ public class StationDemo extends javax.swing.JFrame {
         
         this.parent = parent;
 
-        String year = Selection.yeartxt.getValue().toString();
+        String year = parent.getYear();
         yearl_demo.setText(year);
-        String month = Selection.monthtxt.getValue().toString();
+        String month = parent.getMonth();
         monthl_demo.setText(month);
 
         try {
-            Connection con = DBConnector.getDBConnection();
-            String code = Selection.codetxt.getText();
+            String code = parent.getStation();
             ResultSet rs = DBExecution.getInstance().selectStationByStCode(code);
 
             if (rs.next()) {
@@ -96,7 +94,6 @@ public class StationDemo extends javax.swing.JFrame {
         bookedtkt_kni = new javax.swing.JSpinner();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setMaximumSize(new java.awt.Dimension(1440, 590));
         setSize(new java.awt.Dimension(1440, 490));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -172,7 +169,7 @@ public class StationDemo extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Name", "1st Class", "2nd Class", "3rd Class A", "3rd Class C", "3rd Class B"
+                "Name", "1st Class", "2nd Class", "3rd Class A", "3rd Class B", "3rd Class C"
             }
         ) {
             Class[] types = new Class [] {
@@ -190,7 +187,9 @@ public class StationDemo extends javax.swing.JFrame {
         table_demo.setGridColor(new java.awt.Color(0, 102, 102));
         table_demo.setMaximumSize(new java.awt.Dimension(2147483647, 1500));
         table_demo.setMinimumSize(new java.awt.Dimension(1000, 64));
+        table_demo.setNextFocusableComponent(submitButton);
         table_demo.setPreferredSize(new java.awt.Dimension(1400, 800));
+        table_demo.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
         table_demo.setSurrendersFocusOnKeystroke(true);
         jScrollPane1.setViewportView(table_demo);
         table_demo.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
@@ -308,6 +307,11 @@ public class StationDemo extends javax.swing.JFrame {
             }
                
             table_demo.setRowHeight(20);
+            
+            ActionMap am = table_demo.getActionMap();
+
+            
+           
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
             System.out.println(e);
@@ -392,7 +396,7 @@ public class StationDemo extends javax.swing.JFrame {
     private javax.swing.JLabel namel_demo;
     private javax.swing.JSpinner returnedtkt_kni;
     private javax.swing.JButton submitButton;
-    public static javax.swing.JTable table_demo;
+    private javax.swing.JTable table_demo;
     private javax.swing.JLabel yearl_demo;
     // End of variables declaration//GEN-END:variables
 }
