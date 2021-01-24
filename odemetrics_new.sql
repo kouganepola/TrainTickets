@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `odemetrics`.`stations` (
   `trainline` INT NOT NULL,
   `anOrigin` TINYINT NOT NULL,
   PRIMARY KEY (`stname`),
-  INDEX `trainline_idx` (`trainline` ASC) VISIBLE,
+  INDEX `trainline_idx` (`trainline` ASC),
   CONSTRAINT `trainline`
     FOREIGN KEY (`trainline`)
     REFERENCES `odemetrics`.`trainlines` (`lineId`)
@@ -57,8 +57,8 @@ CREATE TABLE IF NOT EXISTS `odemetrics`.`travelled_tickets` (
   `3rdClsC` INT NOT NULL,
   `total` INT NOT NULL,
   PRIMARY KEY (`year`, `month`, `from`, `to`),
-  INDEX `from_idx` (`from` ASC) VISIBLE,
-  INDEX `to_idx` (`to` ASC) VISIBLE,
+  INDEX `from_idx` (`from` ASC),
+  INDEX `to_idx` (`to` ASC),
   CONSTRAINT `from`
     FOREIGN KEY (`from`)
     REFERENCES `odemetrics`.`stations` (`stname`)
