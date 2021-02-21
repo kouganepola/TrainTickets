@@ -33,5 +33,6 @@ public class JSpinnerRenderer extends JSpinner implements TableCellRenderer
                 }
 
         return this;
-    }
+    }   
+    
 }

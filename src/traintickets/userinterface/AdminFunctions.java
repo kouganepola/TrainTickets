@@ -5,6 +5,9 @@
  */
 package traintickets.userinterface;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
 /**
  *
  * @author koumudi
@@ -16,6 +19,10 @@ public class AdminFunctions extends javax.swing.JFrame {
      */
     public AdminFunctions() {
         initComponents();
+        Toolkit toolkit = getToolkit();
+        setResizable(false);
+        Dimension size = toolkit.getScreenSize();
+        setLocation(size.width / 2 - getWidth() / 2, size.height / 2 - getHeight() / 2);
     }
 
     /**
@@ -39,7 +46,6 @@ public class AdminFunctions extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 153));
 
-        addUserBtn.setBackground(new java.awt.Color(0, 153, 153));
         addUserBtn.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         addUserBtn.setText("Add User");
         addUserBtn.setActionCommand("Show Data");
@@ -49,8 +55,12 @@ public class AdminFunctions extends javax.swing.JFrame {
                 addUserBtnActionPerformed(evt);
             }
         });
+        addUserBtn.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                addUserBtnKeyPressed(evt);
+            }
+        });
 
-        resetPwdBtn.setBackground(new java.awt.Color(0, 153, 153));
         resetPwdBtn.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         resetPwdBtn.setText("Reset Password");
         resetPwdBtn.setActionCommand("Show Data");
@@ -61,7 +71,6 @@ public class AdminFunctions extends javax.swing.JFrame {
             }
         });
 
-        addStationBtn.setBackground(new java.awt.Color(0, 153, 153));
         addStationBtn.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         addStationBtn.setText("Add Station");
         addStationBtn.setActionCommand("Show Data");
@@ -71,8 +80,12 @@ public class AdminFunctions extends javax.swing.JFrame {
                 addStationBtnActionPerformed(evt);
             }
         });
+        addStationBtn.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                addStationBtnKeyPressed(evt);
+            }
+        });
 
-        logoutBtn.setBackground(new java.awt.Color(0, 153, 153));
         logoutBtn.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         logoutBtn.setText("Logout");
         logoutBtn.setActionCommand("Show Data");
@@ -83,7 +96,6 @@ public class AdminFunctions extends javax.swing.JFrame {
             }
         });
 
-        rmvUserBtn.setBackground(new java.awt.Color(0, 153, 153));
         rmvUserBtn.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         rmvUserBtn.setText("Remove User");
         rmvUserBtn.setActionCommand("Show Data");
@@ -93,8 +105,12 @@ public class AdminFunctions extends javax.swing.JFrame {
                 rmvUserBtnActionPerformed(evt);
             }
         });
+        rmvUserBtn.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                rmvUserBtnKeyPressed(evt);
+            }
+        });
 
-        rmvStationBtn.setBackground(new java.awt.Color(0, 153, 153));
         rmvStationBtn.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         rmvStationBtn.setText("Remove Station");
         rmvStationBtn.setActionCommand("Show Data");
@@ -102,6 +118,11 @@ public class AdminFunctions extends javax.swing.JFrame {
         rmvStationBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rmvStationBtnActionPerformed(evt);
+            }
+        });
+        rmvStationBtn.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                rmvStationBtnKeyPressed(evt);
             }
         });
 
@@ -158,9 +179,7 @@ public class AdminFunctions extends javax.swing.JFrame {
 
     private void addUserBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addUserBtnActionPerformed
         // TODO add your handling code here:
-        AddUserForm addUser = new AddUserForm(this);
-        addUser.setVisible(true);
-        setVisible(false);
+        addUserBtnFunction();
     }//GEN-LAST:event_addUserBtnActionPerformed
 
     private void resetPwdBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetPwdBtnActionPerformed
@@ -169,6 +188,7 @@ public class AdminFunctions extends javax.swing.JFrame {
 
     private void addStationBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addStationBtnActionPerformed
         // TODO add your handling code here:
+        addStationBtnFunction();
     }//GEN-LAST:event_addStationBtnActionPerformed
 
     private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
@@ -179,12 +199,66 @@ public class AdminFunctions extends javax.swing.JFrame {
 
     private void rmvUserBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rmvUserBtnActionPerformed
         // TODO add your handling code here:
+        rmvUserBtnFunction();;
     }//GEN-LAST:event_rmvUserBtnActionPerformed
 
     private void rmvStationBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rmvStationBtnActionPerformed
         // TODO add your handling code here:
+        rmvStationBtnFunction();
     }//GEN-LAST:event_rmvStationBtnActionPerformed
 
+    private void addUserBtnKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_addUserBtnKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode()== java.awt.event.KeyEvent.VK_ENTER){ 
+            addUserBtnFunction();
+        }
+    }//GEN-LAST:event_addUserBtnKeyPressed
+
+    private void rmvUserBtnKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rmvUserBtnKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode()== java.awt.event.KeyEvent.VK_ENTER){ // inside this mthod i pasted the code of submit button
+            rmvUserBtnFunction();
+        }
+    }//GEN-LAST:event_rmvUserBtnKeyPressed
+
+    private void addStationBtnKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_addStationBtnKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode()== java.awt.event.KeyEvent.VK_ENTER){ 
+                    addStationBtnFunction();
+        }
+    }//GEN-LAST:event_addStationBtnKeyPressed
+
+    private void rmvStationBtnKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rmvStationBtnKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode()== java.awt.event.KeyEvent.VK_ENTER){ 
+                    rmvStationBtnFunction();
+        }
+    }//GEN-LAST:event_rmvStationBtnKeyPressed
+
+    private void addStationBtnFunction(){
+        AddStationForm addUser = new AddStationForm(this);
+        addUser.setVisible(true);
+        setVisible(false);
+    }
+        
+    private void addUserBtnFunction(){
+        AddUserForm addUser = new AddUserForm(this);
+        addUser.setVisible(true);
+        setVisible(false);
+    }
+    
+    private void rmvUserBtnFunction(){
+        RemoveUserForm rmvUser = new RemoveUserForm(this);
+        rmvUser.setVisible(true);
+        setVisible(false);
+    }
+       
+    private void rmvStationBtnFunction(){
+        RemoveStationForm rmvUser = new RemoveStationForm(this);
+        rmvUser.setVisible(true);
+        setVisible(false);
+    }
+      
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addStationBtn;
     private javax.swing.JButton addUserBtn;

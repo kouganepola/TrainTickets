@@ -37,19 +37,19 @@ public class UserFunctions extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         enterDataButton = new javax.swing.JButton();
         showDataButton = new javax.swing.JToggleButton();
-        summaryButton = new javax.swing.JButton();
         printDataButton = new javax.swing.JButton();
         resetPwdBtn = new javax.swing.JButton();
         logoutBtn = new javax.swing.JButton();
+        updateDataButton = new javax.swing.JToggleButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 153));
 
-        enterDataButton.setBackground(new java.awt.Color(0, 153, 153));
         enterDataButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         enterDataButton.setText("Enter Data");
-        enterDataButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        enterDataButton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        enterDataButton.setPreferredSize(new java.awt.Dimension(88, 34));
         enterDataButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 enterDataButtonActionPerformed(evt);
@@ -61,10 +61,10 @@ public class UserFunctions extends javax.swing.JFrame {
             }
         });
 
-        showDataButton.setBackground(new java.awt.Color(0, 153, 153));
         showDataButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         showDataButton.setText("Show Data");
-        showDataButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        showDataButton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        showDataButton.setPreferredSize(new java.awt.Dimension(90, 34));
         showDataButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 showDataButtonActionPerformed(evt);
@@ -76,47 +76,54 @@ public class UserFunctions extends javax.swing.JFrame {
             }
         });
 
-        summaryButton.setBackground(new java.awt.Color(0, 153, 153));
-        summaryButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        summaryButton.setText("Summary");
-        summaryButton.setActionCommand("Show Data");
-        summaryButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        summaryButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                summaryButtonActionPerformed(evt);
-            }
-        });
-
-        printDataButton.setBackground(new java.awt.Color(0, 153, 153));
         printDataButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         printDataButton.setText("Print Data");
         printDataButton.setActionCommand("Show Data");
-        printDataButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        printDataButton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        printDataButton.setPreferredSize(new java.awt.Dimension(83, 34));
         printDataButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 printDataButtonActionPerformed(evt);
             }
         });
 
-        resetPwdBtn.setBackground(new java.awt.Color(0, 153, 153));
         resetPwdBtn.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         resetPwdBtn.setText("Reset Password");
         resetPwdBtn.setActionCommand("Show Data");
-        resetPwdBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        resetPwdBtn.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         resetPwdBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 resetPwdBtnActionPerformed(evt);
             }
         });
 
-        logoutBtn.setBackground(new java.awt.Color(0, 153, 153));
         logoutBtn.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         logoutBtn.setText("Logout");
         logoutBtn.setActionCommand("Show Data");
-        logoutBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        logoutBtn.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         logoutBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 logoutBtnActionPerformed(evt);
+            }
+        });
+        logoutBtn.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                logoutBtnKeyPressed(evt);
+            }
+        });
+
+        updateDataButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        updateDataButton.setText("Update Data");
+        updateDataButton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        updateDataButton.setPreferredSize(new java.awt.Dimension(90, 34));
+        updateDataButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                updateDataButtonActionPerformed(evt);
+            }
+        });
+        updateDataButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                updateDataButtonKeyPressed(evt);
             }
         });
 
@@ -124,36 +131,36 @@ public class UserFunctions extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(121, 121, 121)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(printDataButton, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
-                    .addComponent(summaryButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(showDataButton, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
-                    .addComponent(enterDataButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(139, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(92, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(printDataButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(showDataButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(enterDataButton, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(updateDataButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(83, 83, 83))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(34, 34, 34)
                 .addComponent(resetPwdBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(logoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(44, 44, 44)
-                .addComponent(enterDataButton)
-                .addGap(42, 42, 42)
-                .addComponent(showDataButton)
-                .addGap(43, 43, 43)
-                .addComponent(summaryButton)
-                .addGap(41, 41, 41)
-                .addComponent(printDataButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
+                .addGap(28, 28, 28)
+                .addComponent(enterDataButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(showDataButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(updateDataButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(printDataButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(logoutBtn)
-                    .addComponent(resetPwdBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(resetPwdBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(logoutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -161,11 +168,13 @@ public class UserFunctions extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -173,25 +182,14 @@ public class UserFunctions extends javax.swing.JFrame {
 
     private void enterDataButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_enterDataButtonActionPerformed
         // TODO add your handling code here:
-        Selection select = new Selection(this);
-        select.setVisible(true);
-        setVisible(false);
+        enterDataButtonFunction();
 
     }//GEN-LAST:event_enterDataButtonActionPerformed
 
     private void showDataButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showDataButtonActionPerformed
         // TODO add your handling code here:
-        ShowDataFunctions showSelection = new ShowDataFunctions(this);
-        showSelection.setVisible(true);
-        setVisible(false);
+        showDataButtonFunction();
     }//GEN-LAST:event_showDataButtonActionPerformed
-
-    private void summaryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_summaryButtonActionPerformed
-        // TODO add your handling code here:
-        ShowDataFunctions showSelection = new ShowDataFunctions(this);
-        showSelection.setVisible(true);
-        setVisible(false);
-    }//GEN-LAST:event_summaryButtonActionPerformed
 
     private void printDataButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printDataButtonActionPerformed
         // TODO add your handling code here:
@@ -201,13 +199,44 @@ public class UserFunctions extends javax.swing.JFrame {
     }//GEN-LAST:event_printDataButtonActionPerformed
 
     private void enterDataButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_enterDataButtonKeyPressed
-        // TODO add your handling code here:     
+        // TODO add your handling code here:    
+        if (evt.getKeyCode()== java.awt.event.KeyEvent.VK_ENTER){   
+            enterDataButtonFunction();
+        }
     }//GEN-LAST:event_enterDataButtonKeyPressed
 
     private void showDataButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_showDataButtonKeyPressed
         // TODO add your handling code here:
+        if (evt.getKeyCode()== java.awt.event.KeyEvent.VK_ENTER){   
+            showDataButtonFunction();
+        }
+
     }//GEN-LAST:event_showDataButtonKeyPressed
 
+    private void enterDataButtonFunction(){
+            Selection select = new Selection(this, "Submit");
+            select.setVisible(true);
+            setVisible(false);
+    }
+    
+    private void showDataButtonFunction(){
+            ShowDataFunctions showSelection = new ShowDataFunctions(this);
+            showSelection.setVisible(true);
+            setVisible(false);
+    }
+       
+    private void updateDataButtonFunction(){
+            Selection select = new Selection(this, "Update");
+            select.setVisible(true);
+            setVisible(false);
+    }
+        
+    private void logoutButtonFunction(){
+        dispose();
+        Login login = new Login();
+        login.setVisible(true);
+    }
+        
     private void printDataButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_printDataButton3ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_printDataButton3ActionPerformed
@@ -217,10 +246,28 @@ public class UserFunctions extends javax.swing.JFrame {
     }//GEN-LAST:event_resetPwdBtnActionPerformed
 
     private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
-        dispose();
-        Login login = new Login();
-        login.setVisible(true);
+        logoutButtonFunction();
     }//GEN-LAST:event_logoutBtnActionPerformed
+
+    private void logoutBtnKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_logoutBtnKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode()== java.awt.event.KeyEvent.VK_ENTER){   
+            logoutButtonFunction();
+        }
+        
+    }//GEN-LAST:event_logoutBtnKeyPressed
+
+    private void updateDataButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateDataButtonActionPerformed
+        // TODO add your handling code here:
+        updateDataButtonFunction();
+    }//GEN-LAST:event_updateDataButtonActionPerformed
+
+    private void updateDataButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_updateDataButtonKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode()== java.awt.event.KeyEvent.VK_ENTER){   
+            updateDataButtonFunction();
+        }
+    }//GEN-LAST:event_updateDataButtonKeyPressed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -230,6 +277,6 @@ public class UserFunctions extends javax.swing.JFrame {
     private javax.swing.JButton printDataButton;
     private javax.swing.JButton resetPwdBtn;
     private javax.swing.JToggleButton showDataButton;
-    private javax.swing.JButton summaryButton;
+    private javax.swing.JToggleButton updateDataButton;
     // End of variables declaration//GEN-END:variables
 }

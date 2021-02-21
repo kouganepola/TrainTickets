@@ -49,30 +49,40 @@ public class ShowDataFunctions extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 153));
 
-        monthlyOverall.setBackground(new java.awt.Color(0, 204, 204));
         monthlyOverall.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         monthlyOverall.setText("Overall");
+        monthlyOverall.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         monthlyOverall.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 monthlyOverallActionPerformed(evt);
             }
         });
 
-        monthlyStation.setBackground(new java.awt.Color(0, 204, 204));
         monthlyStation.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         monthlyStation.setText("Monthly Station ");
+        monthlyStation.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         monthlyStation.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 monthlyStationActionPerformed(evt);
             }
         });
+        monthlyStation.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                monthlyStationKeyPressed(evt);
+            }
+        });
 
-        backButton.setBackground(new java.awt.Color(0, 204, 204));
         backButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         backButton.setText("Back");
+        backButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         backButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 backButtonActionPerformed(evt);
+            }
+        });
+        backButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                backButtonKeyPressed(evt);
             }
         });
 
@@ -114,19 +124,39 @@ public class ShowDataFunctions extends javax.swing.JFrame {
 
     private void monthlyStationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_monthlyStationActionPerformed
         // TODO add your handling code here:
-                
-        Selection select = new Selection(this);
-        select.setVisible(true);
-        setVisible(false);
+                getMonthlyOverallDataOfStation();
+
     }//GEN-LAST:event_monthlyStationActionPerformed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
-        // TODO add your handling code here:
-        UserFunctions funct = new UserFunctions();
-        funct.setVisible(true);
-        setVisible(false);
+        backButtonFunction();
     }//GEN-LAST:event_backButtonActionPerformed
 
+    private void monthlyStationKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_monthlyStationKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode()== java.awt.event.KeyEvent.VK_ENTER){ 
+            getMonthlyOverallDataOfStation();
+        }
+    }//GEN-LAST:event_monthlyStationKeyPressed
+
+    private void backButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_backButtonKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode()== java.awt.event.KeyEvent.VK_ENTER){ 
+            backButtonFunction();
+        }
+        
+    }//GEN-LAST:event_backButtonKeyPressed
+
+   private void getMonthlyOverallDataOfStation(){
+        Selection select = new Selection(this, "Show");
+        select.setVisible(true);
+        setVisible(false);
+   }
+    
+    private void backButtonFunction(){
+        parent.setVisible(true);
+        dispose();
+    }
     private JFrame parent;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;

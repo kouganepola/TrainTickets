@@ -28,6 +28,17 @@ public class DBExecution {
         return dbStatement;    
     }
     
+    public ResultSet selectUser(String username) throws SQLException, ClassNotFoundException{
+    
+            Connection con = DBConnector.getDBConnection();    
+            String sql = "Select * from users where username=?";
+            PreparedStatement pst = con.prepareStatement(sql);
+            pst.setString(1, username);
+            ResultSet rs = pst.executeQuery();
+            
+            return rs;
+    } 
+        
     public ResultSet selectMatchingUser(String username, String password) throws SQLException, ClassNotFoundException{
     
             Connection con = DBConnector.getDBConnection();    
@@ -40,6 +51,28 @@ public class DBExecution {
             return rs;
     } 
     
+       
+    public ResultSet selectTrainLines() throws SQLException, ClassNotFoundException{
+    
+            Connection con = DBConnector.getDBConnection();
+            String sql1 = "Select * from trainlines";
+            PreparedStatement pst = con.prepareStatement(sql1);
+            ResultSet rs = pst.executeQuery();
+            
+            return rs;
+    }
+    
+        public ResultSet selectTrainLine(String trainline) throws SQLException, ClassNotFoundException{
+    
+            Connection con = DBConnector.getDBConnection();
+            String sql1 = "Select * from trainlines where name=?";
+            PreparedStatement pst = con.prepareStatement(sql1);
+            pst.setString(1, trainline);
+            ResultSet rs = pst.executeQuery();
+            
+            return rs;
+    }
+    
     public ResultSet selectStationByStCode(String stCode) throws SQLException, ClassNotFoundException{
     
             Connection con = DBConnector.getDBConnection();
@@ -51,10 +84,20 @@ public class DBExecution {
             return rs;
     }
     
-    public ResultSet selectAllDestinationStations(String originName) throws SQLException, ClassNotFoundException{
+    public ResultSet selectAllActiveStations() throws SQLException, ClassNotFoundException{
     
             Connection con = DBConnector.getDBConnection();
-            String sql1 = "Select * from stations where stname!=?";
+            String sql1 = "Select * from stations where isDeleted = false";
+            PreparedStatement pst = con.prepareStatement(sql1);
+            ResultSet rs = pst.executeQuery();
+            
+            return rs;
+    }
+        
+    public ResultSet selectAllActiveDestinationStations(String originName) throws SQLException, ClassNotFoundException{
+    
+            Connection con = DBConnector.getDBConnection();
+            String sql1 = "Select * from stations where stname!=? and isDeleted = false";
             PreparedStatement pst = con.prepareStatement(sql1);
             pst.setString(1, originName);
             ResultSet rs = pst.executeQuery();
@@ -62,11 +105,57 @@ public class DBExecution {
             return rs;
     }
     
-    public void insertStationTicketData(JTable table, Integer year,String month,String origin,Integer bookedTkts,Integer returnedTkts) throws SQLException, ClassNotFoundException{
+    public void updateStationTicketData(JTable table, Integer year,String month,String origin,Integer bookedTkts,Integer returnedTkts) throws SQLException, ClassNotFoundException{
         
-            int rows = table.getRowCount();
             Connection conn = DBConnector.getDBConnection();
             conn.setAutoCommit(false);
+            prepareDeletionStatementForStationTicketData(conn, year, month, origin);
+            prepareInsertionStatementForStationTicketData(conn, table, year, month, origin, bookedTkts, returnedTkts);
+            conn.commit();
+    }
+    
+    public void deleteStationTicketData(Integer year, String month, String origin) throws ClassNotFoundException, SQLException{
+            Connection conn = DBConnector.getDBConnection();
+            conn.setAutoCommit(false);
+            
+            prepareDeletionStatementForStationTicketData(conn, year, month, origin);
+            
+            conn.commit();
+    }
+    
+    private void prepareDeletionStatementForStationTicketData(Connection conn, Integer year, String month, String origin) throws ClassNotFoundException, SQLException{
+
+            String sql = "DELETE FROM travelled_tickets WHERE year=? and month=?  and `from`=?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            
+            stmt.setInt(1, year);
+            stmt.setString(2,month);
+            stmt.setString(3,origin);
+            
+            stmt.execute();
+            
+            String sql1 = "DELETE FROM aggregate_counts WHERE year=? and month=?  and origin=?";
+     
+            PreparedStatement stmt1 = conn.prepareStatement(sql1);
+            stmt1.setInt(1, year);
+            stmt1.setString(2,month);
+            stmt1.setString(3,origin);
+            
+            stmt1.execute();
+    }
+    
+    public void insertStationTicketData(JTable table, Integer year,String month,String origin,Integer bookedTkts,Integer returnedTkts) throws SQLException, ClassNotFoundException{
+        
+            Connection conn = DBConnector.getDBConnection();
+            conn.setAutoCommit(false);
+            
+            prepareInsertionStatementForStationTicketData(conn, table, year, month, origin, bookedTkts, returnedTkts);
+            conn.commit();
+    }
+    
+    private void prepareInsertionStatementForStationTicketData(Connection conn, JTable table, Integer year,String month,String origin,Integer bookedTkts,Integer returnedTkts) throws SQLException, ClassNotFoundException{
+        
+            int rows = table.getRowCount();
 
             String sql = "INSERT INTO travelled_tickets (`year`, `month`, `from`, `to`, `1stCls`, `2ndCls`, `3rdClsA`, `3rdClsB`, `3rdClsC`, `total`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                     
@@ -109,8 +198,7 @@ public class DBExecution {
             aggregatePst.setInt(4,bookedTkts);
             aggregatePst.setInt(5,returnedTkts);
             aggregatePst.execute();
-              
-            conn.commit();
+
     }
     
     public ResultSet getStationTicketDataofMonth(Integer year,String month,String origin) throws SQLException, ClassNotFoundException{
@@ -138,4 +226,44 @@ public class DBExecution {
             
             return rs;            
     }
+    
+    public void insertUser(String user, String password, String role) throws ClassNotFoundException, SQLException{
+        Connection con = DBConnector.getDBConnection();
+        String sql = "INSERT INTO users (`username`, `password`, `role`) VALUES (?, ?, ?)";
+        PreparedStatement pst = con.prepareStatement(sql);
+        pst.setString(1, user);
+        pst.setString(2, password);
+        pst.setString(3, role);
+        pst.execute();
+        
+    }
+    
+    public void deleteUser(String user) throws ClassNotFoundException, SQLException{
+        Connection con = DBConnector.getDBConnection();
+        String sql = "DELETE FROM users WHERE username=?";
+        PreparedStatement pst = con.prepareStatement(sql);
+        pst.setString(1, user);
+        pst.execute();     
+    }
+    
+    public boolean deleteStation(String stname) throws ClassNotFoundException, SQLException{
+        Connection con = DBConnector.getDBConnection();
+        String sql = "Update stations set isDeleted = true WHERE stname=?";
+        PreparedStatement pst = con.prepareStatement(sql);
+        pst.setString(1, stname);
+        return pst.execute();     
+    }
+        
+    public void insertStation(String stationName, String stationCode, int trainline, boolean anOrigin) throws ClassNotFoundException, SQLException{
+        Connection con = DBConnector.getDBConnection();
+        String sql = "INSERT INTO stations (`stname`, `stcode`, `trainline`, `anOrigin`) VALUES (?, ?, ?, ?)";
+        PreparedStatement pst = con.prepareStatement(sql);
+        pst.setString(1, stationName);
+        pst.setString(2, stationCode);
+        pst.setInt(3, trainline);
+        pst.setBoolean(4,anOrigin);
+        pst.execute();
+        
+    }
+    
 }

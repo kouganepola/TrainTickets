@@ -32,8 +32,9 @@ CREATE TABLE IF NOT EXISTS `odemetrics`.`stations` (
   `stcode` VARCHAR(16) NULL,
   `trainline` INT NOT NULL,
   `anOrigin` TINYINT NOT NULL,
+  `isDeleted` TINYINT NOT NULL DEFAULT 0,
   PRIMARY KEY (`stname`),
-  INDEX `trainline_idx` (`trainline` ASC),
+  INDEX `trainline_idx` (`trainline` ASC) INVISIBLE,
   CONSTRAINT `trainline`
     FOREIGN KEY (`trainline`)
     REFERENCES `odemetrics`.`trainlines` (`lineId`)
@@ -57,8 +58,8 @@ CREATE TABLE IF NOT EXISTS `odemetrics`.`travelled_tickets` (
   `3rdClsC` INT NOT NULL,
   `total` INT NOT NULL,
   PRIMARY KEY (`year`, `month`, `from`, `to`),
-  INDEX `from_idx` (`from` ASC),
-  INDEX `to_idx` (`to` ASC),
+  INDEX `from_idx` (`from` ASC) INVISIBLE,
+  INDEX `to_idx` (`to` ASC) INVISIBLE,
   CONSTRAINT `from`
     FOREIGN KEY (`from`)
     REFERENCES `odemetrics`.`stations` (`stname`)
@@ -128,22 +129,22 @@ COMMIT;
 -- -----------------------------------------------------
 START TRANSACTION;
 USE `odemetrics`;
-INSERT INTO `odemetrics`.`stations` (`stname`, `stcode`, `trainline`, `anOrigin`) VALUES ('AGBOPURA', 'APR', 6, true);
-INSERT INTO `odemetrics`.`stations` (`stname`, `stcode`, `trainline`, `anOrigin`) VALUES ('KANTALE', 'KNI', 6, true);
-INSERT INTO `odemetrics`.`stations` (`stname`, `stcode`, `trainline`, `anOrigin`) VALUES ('MOLLIPOTANA', 'MPL', 6, true);
-INSERT INTO `odemetrics`.`stations` (`stname`, `stcode`, `trainline`, `anOrigin`) VALUES ('TAMPALAKAMAM', 'TAN', 6, true);
-INSERT INTO `odemetrics`.`stations` (`stname`, `stcode`, `trainline`, `anOrigin`) VALUES ('CHINA BAY', 'CBY', 6, true);
-INSERT INTO `odemetrics`.`stations` (`stname`, `stcode`, `trainline`, `anOrigin`) VALUES ('TRINCOMALEE', 'TCO', 6, true);
-INSERT INTO `odemetrics`.`stations` (`stname`, `stcode`, `trainline`, `anOrigin`) VALUES ('MARADANA', 'MDA', 1, true);
-INSERT INTO `odemetrics`.`stations` (`stname`, `stcode`, `trainline`, `anOrigin`) VALUES ('DEMATAGODA', 'DAG', 1, true);
-INSERT INTO `odemetrics`.`stations` (`stname`, `stcode`, `trainline`, `anOrigin`) VALUES ('KELANIYA', 'KLA', 1, true);
-INSERT INTO `odemetrics`.`stations` (`stname`, `stcode`, `trainline`, `anOrigin`) VALUES ('WANAWASALA', 'WSL', 1, true);
-INSERT INTO `odemetrics`.`stations` (`stname`, `stcode`, `trainline`, `anOrigin`) VALUES ('HUNUPITIYA', 'HUN', 1, true);
-INSERT INTO `odemetrics`.`stations` (`stname`, `stcode`, `trainline`, `anOrigin`) VALUES ('SARASAVIUYANA', 'SUA', 7, true);
-INSERT INTO `odemetrics`.`stations` (`stname`, `stcode`, `trainline`, `anOrigin`) VALUES ('KANDY', 'KDT', 7, true);
-INSERT INTO `odemetrics`.`stations` (`stname`, `stcode`, `trainline`, `anOrigin`) VALUES ('ASGIRIYA', '', 7, false);
-INSERT INTO `odemetrics`.`stations` (`stname`, `stcode`, `trainline`, `anOrigin`) VALUES ('MAHAIYAWA', 'MYA', 7, true);
-INSERT INTO `odemetrics`.`stations` (`stname`, `stcode`, `trainline`, `anOrigin`) VALUES ('KATUGASTOTA ROAD', '', 7, false);
+INSERT INTO `odemetrics`.`stations` (`stname`, `stcode`, `trainline`, `anOrigin`, `isDeleted`) VALUES ('AGBOPURA', 'APR', 6, true, false);
+INSERT INTO `odemetrics`.`stations` (`stname`, `stcode`, `trainline`, `anOrigin`, `isDeleted`) VALUES ('KANTALE', 'KNI', 6, true, false);
+INSERT INTO `odemetrics`.`stations` (`stname`, `stcode`, `trainline`, `anOrigin`, `isDeleted`) VALUES ('MOLLIPOTANA', 'MPL', 6, true, false);
+INSERT INTO `odemetrics`.`stations` (`stname`, `stcode`, `trainline`, `anOrigin`, `isDeleted`) VALUES ('TAMPALAKAMAM', 'TAN', 6, true, false);
+INSERT INTO `odemetrics`.`stations` (`stname`, `stcode`, `trainline`, `anOrigin`, `isDeleted`) VALUES ('CHINA BAY', 'CBY', 6, true, false);
+INSERT INTO `odemetrics`.`stations` (`stname`, `stcode`, `trainline`, `anOrigin`, `isDeleted`) VALUES ('TRINCOMALEE', 'TCO', 6, true, false);
+INSERT INTO `odemetrics`.`stations` (`stname`, `stcode`, `trainline`, `anOrigin`, `isDeleted`) VALUES ('MARADANA', 'MDA', 1, true, false);
+INSERT INTO `odemetrics`.`stations` (`stname`, `stcode`, `trainline`, `anOrigin`, `isDeleted`) VALUES ('DEMATAGODA', 'DAG', 1, true, false);
+INSERT INTO `odemetrics`.`stations` (`stname`, `stcode`, `trainline`, `anOrigin`, `isDeleted`) VALUES ('KELANIYA', 'KLA', 1, true, false);
+INSERT INTO `odemetrics`.`stations` (`stname`, `stcode`, `trainline`, `anOrigin`, `isDeleted`) VALUES ('WANAWASALA', 'WSL', 1, true, false);
+INSERT INTO `odemetrics`.`stations` (`stname`, `stcode`, `trainline`, `anOrigin`, `isDeleted`) VALUES ('HUNUPITIYA', 'HUN', 1, true, false);
+INSERT INTO `odemetrics`.`stations` (`stname`, `stcode`, `trainline`, `anOrigin`, `isDeleted`) VALUES ('SARASAVIUYANA', 'SUA', 7, true, false);
+INSERT INTO `odemetrics`.`stations` (`stname`, `stcode`, `trainline`, `anOrigin`, `isDeleted`) VALUES ('KANDY', 'KDT', 7, true, false);
+INSERT INTO `odemetrics`.`stations` (`stname`, `stcode`, `trainline`, `anOrigin`, `isDeleted`) VALUES ('ASGIRIYA', '', 7, false, false);
+INSERT INTO `odemetrics`.`stations` (`stname`, `stcode`, `trainline`, `anOrigin`, `isDeleted`) VALUES ('MAHAIYAWA', 'MYA', 7, true, false);
+INSERT INTO `odemetrics`.`stations` (`stname`, `stcode`, `trainline`, `anOrigin`, `isDeleted`) VALUES ('KATUGASTOTA ROAD', '', 7, false, false);
 
 COMMIT;
 
@@ -154,6 +155,7 @@ COMMIT;
 START TRANSACTION;
 USE `odemetrics`;
 INSERT INTO `odemetrics`.`users` (`username`, `password`, `role`) VALUES ('SANDUNI', '12345', 'admin');
+INSERT INTO `odemetrics`.`users` (`username`, `password`, `role`) VALUES ('KOUMUDI', '12345', 'user');
 
 COMMIT;
 

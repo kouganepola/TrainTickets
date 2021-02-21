@@ -1,4 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/home/koumudi/NetBeansProjects/TrainTickets/src/traintickets/userinterface/RemoveStationForm.java</file>
+            <file>file:/home/koumudi/NetBeansProjects/TrainTickets/src/traintickets/userinterface/AdminFunctions.java</file>
+            <file>file:/home/koumudi/NetBeansProjects/TrainTickets/src/traintickets/core/DBExecution.java</file>
+            <file>file:/home/koumudi/NetBeansProjects/TrainTickets/src/traintickets/userinterface/StationDataView.java</file>
+            <file>file:/home/koumudi/NetBeansProjects/TrainTickets/src/traintickets/userinterface/StationDataForm.java</file>
+            <file>file:/home/koumudi/NetBeansProjects/TrainTickets/src/traintickets/userinterface/UserFunctions.java</file>
+            <file>file:/home/koumudi/NetBeansProjects/TrainTickets/src/traintickets/userinterface/RemoveUserForm.java</file>
+            <file>file:/home/koumudi/NetBeansProjects/TrainTickets/src/traintickets/userinterface/AddStationForm.java</file>
+        </group>
+    </open-files>
 </project-private>

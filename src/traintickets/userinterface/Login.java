@@ -25,11 +25,12 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents();
         Toolkit toolkit = getToolkit();
-        //setSize(20,20);// setting size of jframe
+
         setResizable(false);// user can not minimize or maximize
         Dimension size = toolkit.getScreenSize();
         setLocation(size.width/2-getWidth()/2, size.height/2-getHeight()/2);// setting location
-        //setExtendedState(JFrame.MAXIMIZED_BOTH);// full screen mode
+                
+      
     }
 
     /**
@@ -59,7 +60,8 @@ public class Login extends javax.swing.JFrame {
 
         jPanel3.setBackground(new java.awt.Color(0, 153, 153));
 
-        user.setBackground(new java.awt.Color(0, 204, 204));
+        user.setBackground(java.awt.Color.white);
+        user.setFont(new java.awt.Font("Ubuntu", 1, 16)); // NOI18N
         user.setForeground(new java.awt.Color(153, 153, 146));
         user.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         user.setText("USERNAME");
@@ -83,10 +85,9 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        loginButton.setBackground(new java.awt.Color(0, 153, 153));
         loginButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         loginButton.setText("LOGIN");
-        loginButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        loginButton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         loginButton.setPreferredSize(new java.awt.Dimension(54, 34));
         loginButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -99,7 +100,8 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        password.setBackground(new java.awt.Color(0, 204, 204));
+        password.setBackground(java.awt.Color.white);
+        password.setFont(new java.awt.Font("Ubuntu", 1, 16)); // NOI18N
         password.setForeground(new java.awt.Color(142, 142, 138));
         password.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         password.setText("PASSWORD");
@@ -222,6 +224,7 @@ public class Login extends javax.swing.JFrame {
         if(password.getText().trim().equals("")){
             password.setText("PASSWORD");
             password.setForeground(Color.GRAY);
+            password.setEchoChar((char)0);
         }else if(!password.getText().equals("PASSWORD")) {
             password.setEchoChar('*');
             password.setForeground(Color.BLACK);
@@ -238,8 +241,7 @@ public class Login extends javax.swing.JFrame {
 
     private void loginButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_loginButtonKeyPressed
         // TODO add your handling code here:
-        if (evt.getKeyCode()== java.awt.event.KeyEvent.VK_ENTER){ // inside this mthod i pasted the code of submit button
-            
+        if (evt.getKeyCode()== java.awt.event.KeyEvent.VK_ENTER){ // inside this mthod i pasted the code of submit button        
                 login();
         }
     }//GEN-LAST:event_loginButtonKeyPressed
@@ -263,10 +265,18 @@ public class Login extends javax.swing.JFrame {
             ResultSet rs = DBExecution.getInstance().selectMatchingUser(user.getText(), password.getText());
             
             if(rs.next()){
+                
                 JOptionPane.showMessageDialog(null, "Username and Password matched!");
-                UserFunctions funct = new UserFunctions();
-                funct.setVisible(true);
-                setVisible(false);
+                if(rs.getString("role")!=null && rs.getString("role").equals("admin")){
+                    AdminFunctions function = new AdminFunctions();
+                    function.setVisible(true);
+                    
+                }else{
+                    UserFunctions funct = new UserFunctions();
+                    funct.setVisible(true);
+                }
+                
+                    setVisible(false);
             }
             else{
                 JOptionPane.showMessageDialog(null, "Username and Password do not matched!");

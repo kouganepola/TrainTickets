@@ -8,6 +8,7 @@ package traintickets.userinterface;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -25,7 +26,7 @@ public class StationDataView extends javax.swing.JFrame {
      */
     public StationDataView(Selection parent) {
         initComponents();
-        
+        visible = true;
         Toolkit toolkit = getToolkit();
         Dimension size = toolkit.getScreenSize();
 
@@ -35,7 +36,7 @@ public class StationDataView extends javax.swing.JFrame {
         
         this.parent = parent;
         
-        String year = parent.getYear();
+        String year = new SimpleDateFormat("yyyy").format(parent.getYear());
         yearl_demo.setText(year);
         String month = parent.getMonth();
         monthl_demo.setText(month);
@@ -136,13 +137,19 @@ public class StationDataView extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
         jLabel4.setText("TOTAL ISSUED TKT");
 
+        rtnTktTxt.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         rtnTktTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 rtnTktTxtActionPerformed(evt);
             }
         });
 
+        bookedTktTxt.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        issuedTktTxt.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
         backButton.setText("Back");
+        backButton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         backButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         backButton.setMaximumSize(new java.awt.Dimension(89, 27));
         backButton.setMinimumSize(new java.awt.Dimension(89, 27));
@@ -150,6 +157,11 @@ public class StationDataView extends javax.swing.JFrame {
         backButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 backButtonActionPerformed(evt);
+            }
+        });
+        backButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                backButtonKeyPressed(evt);
             }
         });
 
@@ -175,17 +187,19 @@ public class StationDataView extends javax.swing.JFrame {
                                         .addGap(101, 101, 101)
                                         .addComponent(yearl_demo, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(48, 48, 48)
-                                        .addComponent(monthl_demo, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(rtnTktTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(155, 155, 155))
+                                        .addComponent(monthl_demo, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(27, 745, Short.MAX_VALUE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel4)
+                                        .addGap(28, 28, 28)))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(issuedTktTxt)
+                                    .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(bookedTktTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel4)
-                                .addGap(45, 45, 45)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(issuedTktTxt)
-                            .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(bookedTktTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(rtnTktTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 1332, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -243,14 +257,39 @@ public class StationDataView extends javax.swing.JFrame {
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
 
-        dispose();
-        parent.setVisible(true);
+        backButtonFunction();
 
     }//GEN-LAST:event_backButtonActionPerformed
 
-        private void fillComponents(Integer year, String month, String origin) {
+    private void backButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_backButtonKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode()== java.awt.event.KeyEvent.VK_ENTER){ 
+            backButtonFunction();
+        }
+    }//GEN-LAST:event_backButtonKeyPressed
+
+    private void backButtonFunction(){
+        parent.setVisible(true);
+        dispose();
+    }
+    
+    private void fillComponents(Integer year, String month, String origin) {
 
         try {
+                     
+            ResultSet aggregateResultSet = DBExecution.getInstance().getAggregateStationDataofMonth(year, month, origin);
+            
+            if(aggregateResultSet.next()){
+                bookedTktTxt.setText(aggregateResultSet.getString("booked_tkt"));
+                rtnTktTxt.setText(aggregateResultSet.getString("returned_tkt"));
+                
+                rtnTktTxt.setEditable(false);
+                bookedTktTxt.setEditable(false);
+            }else{
+                JOptionPane.showMessageDialog(this, "No records entered for station "+origin+" in "+year+" "+month);
+                visible = false;
+            }
+            
             ResultSet resultSet = DBExecution.getInstance().getStationTicketDataofMonth(year, month, origin);
             DefaultTableModel model = (DefaultTableModel) table_demo.getModel();
             
@@ -262,22 +301,22 @@ public class StationDataView extends javax.swing.JFrame {
                 totalTkts += resultSet.getInt("total");
             } 
             
-            issuedTktTxt.setText(totalTkts.toString());
+            issuedTktTxt.setText(totalTkts.toString());   
+            issuedTktTxt.setEditable(false);
             
-            ResultSet aggregateResultSet = DBExecution.getInstance().getAggregateStationDataofMonth(year, month, origin);
-            
-            if(aggregateResultSet.next()){
-                bookedTktTxt.setText(aggregateResultSet.getString("booked_tkt"));
-                rtnTktTxt.setText(aggregateResultSet.getString("returned_tkt"));
-            }
-            
+            table_demo.setEnabled(false);
                         
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
             System.out.println(e);
         }
     }
+        
+    public boolean getVisible(){
+        return visible;
+    }
 
+    private boolean visible;
     private JFrame parent;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
