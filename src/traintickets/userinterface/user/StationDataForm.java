@@ -3,23 +3,45 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package traintickets.userinterface;
+package traintickets.userinterface.user;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ActionMap;
 import javax.swing.DefaultCellEditor;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JSpinner;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.Renderer;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import traintickets.core.DBExecution;
+import traintickets.userinterface.components.ComboBoxEditor;
 import traintickets.userinterface.components.ComboBoxRenderer;
-import traintickets.userinterface.components.JSpinnerRenderer;
-import traintickets.userinterface.components.JTableSpinnerEditor;
+import traintickets.userinterface.components.StationDataTableNumericCellRenderer;
+import traintickets.userinterface.components.CustomNumericCellEditor;
+import traintickets.userinterface.components.TextHandler;
 
 /**
  *
@@ -33,6 +55,7 @@ public class StationDataForm extends javax.swing.JFrame {
      */
     public StationDataForm(Selection parent) {
         initComponents();
+        initSpinners();
         visible = true;
         Toolkit toolkit = getToolkit();
         Dimension size = toolkit.getScreenSize();
@@ -62,7 +85,13 @@ public class StationDataForm extends javax.swing.JFrame {
                 
                 if(parent.getOperation().equals("Update")){
                     fillData(Integer.parseInt(year), month, name);
-                }
+                }else{
+                ResultSet rset = DBExecution.getInstance().selectExistingToStations(name);
+                DefaultTableModel model = (DefaultTableModel) form_table.getModel();
+                while (rset.next()) {
+                    model.addRow(new Object[]{ rset.getString("to").toUpperCase(),0,0,0,0,0});
+                } 
+             }
                                 
             } else {
                 JOptionPane.showMessageDialog(null, "error!");
@@ -187,8 +216,7 @@ public class StationDataForm extends javax.swing.JFrame {
 
         jScrollPane2.setBackground(new java.awt.Color(51, 204, 255));
 
-        form_table.setAutoCreateRowSorter(true);
-        form_table.setBackground(new java.awt.Color(0, 204, 204));
+        form_table.setBackground(new java.awt.Color(190, 212, 210));
         form_table.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 255, 255)));
         form_table.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         form_table.setModel(new javax.swing.table.DefaultTableModel(
@@ -216,6 +244,11 @@ public class StationDataForm extends javax.swing.JFrame {
         form_table.setMinimumSize(new java.awt.Dimension(1000, 64));
         form_table.setPreferredSize(new java.awt.Dimension(1400, 800));
         form_table.setSurrendersFocusOnKeystroke(true);
+        form_table.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                form_tableKeyPressed(evt);
+            }
+        });
         jScrollPane2.setViewportView(form_table);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -277,7 +310,8 @@ public class StationDataForm extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel2)
                                     .addComponent(bookedtkt_kni, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(returnedtkt_kni, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(returnedtkt_kni, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(26, 26, 26))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -287,8 +321,8 @@ public class StationDataForm extends javax.swing.JFrame {
                             .addComponent(minusButton, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(addButton, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(operationButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(18, 18, 18)
+                        .addComponent(operationButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)))
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(209, 209, 209))
         );
@@ -298,36 +332,67 @@ public class StationDataForm extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void initSpinners(){
+        JSpinner.DefaultEditor returnedEditor = ((JSpinner.DefaultEditor)returnedtkt_kni.getEditor());
+        returnedTextField = returnedEditor.getTextField();
+        
+        JSpinner.DefaultEditor bookedEditor = ((JSpinner.DefaultEditor)bookedtkt_kni.getEditor());
+        bookedTextField = bookedEditor.getTextField();
+        
+        returnedTextField.addFocusListener( new FocusListener() {
+            @Override
+            public void focusGained( FocusEvent fe ) {
+                System.err.println("Got focusD");
+                SwingUtilities.invokeLater(() -> {
+                    returnedTextField.selectAll();
+                });
+            }
+            @Override
+            public void focusLost( FocusEvent fe ) {
+            }
+        });
+        
+                
+        bookedTextField.addFocusListener( new FocusListener() {
+            @Override
+            public void focusGained( FocusEvent fe ) {
+                System.err.println("Got focusD");
+                SwingUtilities.invokeLater(() -> {
+                    bookedTextField.selectAll();
+                });
+            }
+            @Override
+            public void focusLost( FocusEvent fe ) {
+            }
+        });       
+        
+    }
+    
     private void fillColumns(String origin) {
 
         try {
             ResultSet rs = DBExecution.getInstance().selectAllActiveDestinationStations(origin);
-
-            JComboBox combo = new JComboBox();
             while (rs.next()) {
 
                 String stations = rs.getString("stname");
-                combo.addItem(stations);
-
+                stationArray.add(stations);
             }
-       
-            form_table.getColumnModel().getColumn(0).setCellEditor(new DefaultCellEditor(combo));
+              
+                   
+            form_table.getColumnModel().getColumn(0).setCellEditor(new ComboBoxEditor(form_table, stationArray));
             form_table.getColumnModel().getColumn(0).setCellRenderer(new ComboBoxRenderer());
             
             int columnCount = form_table.getColumnCount();
             
-            for(int column=1;column<columnCount;column++){
-                
-                
-              form_table.getColumnModel().getColumn(column).setCellEditor(new JTableSpinnerEditor());
-              form_table.getColumnModel().getColumn(column).setCellRenderer(new JSpinnerRenderer());
+            ResultSet averageData = DBExecution.getInstance().getAverageTicketDataOfStation(origin);
+            StationDataTableNumericCellRenderer renderer = new StationDataTableNumericCellRenderer(((Selection)parent).getOperation(), origin, Integer.parseInt(yearl_demo.getText()), monthl_demo.getText());
+            
+            for(int column=1;column<columnCount;column++){                
+              form_table.getColumnModel().getColumn(column).setCellEditor(new CustomNumericCellEditor(true));
+              form_table.getColumnModel().getColumn(column).setCellRenderer(renderer);
             }
                
-            form_table.setRowHeight(20);
-            
-            ActionMap am = form_table.getActionMap();
-
-            
+            form_table.setRowHeight(20);            
            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e.getMessage());
@@ -350,7 +415,7 @@ public class StationDataForm extends javax.swing.JFrame {
                 visible = false;
             }
             
-            ResultSet resultSet = DBExecution.getInstance().getStationTicketDataofMonth(year, month, origin);
+            ResultSet resultSet = DBExecution.getInstance().getStationTicketDataofMonth(year, month, origin, "ALL");
             DefaultTableModel model = (DefaultTableModel) form_table.getModel();
             
             while (resultSet.next()) {
@@ -373,7 +438,7 @@ public class StationDataForm extends javax.swing.JFrame {
              updateData();
         }
     }//GEN-LAST:event_operationButtonActionPerformed
-
+    
     private void addRow() {
         DefaultTableModel dtm = (DefaultTableModel) form_table.getModel();
         dtm.setRowCount(dtm.getRowCount() + 1);
@@ -428,6 +493,16 @@ public class StationDataForm extends javax.swing.JFrame {
             clearTable();
         }  
     }//GEN-LAST:event_clearTableButtonKeyPressed
+//
+    private void form_tableKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_form_tableKeyPressed
+        // TODO add your handling code here:
+        
+//               int currentColumn = form_table.getSelectedColumn();
+//               int currentRow = form_table.getSelectedRow();
+//               Cursor cursor = form_table.getCursor();
+//               cursor.setSelection(currentRow+1, 0);
+        
+    }//GEN-LAST:event_form_tableKeyPressed
     
     private void backButtonFunction(){
         dispose();
@@ -446,6 +521,18 @@ public class StationDataForm extends javax.swing.JFrame {
             Integer bookedTkts = Integer.parseInt(bookedtkt_kni.getValue().toString());
             Integer returnedTkts = Integer.parseInt(returnedtkt_kni.getValue().toString());
              
+            
+            ResultSet averageData = DBExecution.getInstance().getAverageTicketDataOfStation(origin);
+//            findDiff = false;
+////            findDifference(averageData);
+//            
+//            if(findDiff){
+//                int dialogResult = JOptionPane.showConfirmDialog (null, "Your entries have anomalies. Do you want to ignore and submit","Warning",0);
+//                if(dialogResult == JOptionPane.NO_OPTION){
+//                  return;
+//                }
+//            }
+            
             DBExecution.getInstance().insertStationTicketData(form_table, year, month, origin, bookedTkts, returnedTkts);
             
             JOptionPane.showMessageDialog(this, "successfull!");
@@ -458,6 +545,7 @@ public class StationDataForm extends javax.swing.JFrame {
         }
     }
     
+
     private void updateData(){
         try {
             Integer year = Integer.parseInt(yearl_demo.getText());
@@ -478,8 +566,11 @@ public class StationDataForm extends javax.swing.JFrame {
         }        
     }
     
+    private JTextField bookedTextField;
+    private JTextField returnedTextField;
     private boolean visible;    
     private JFrame parent;
+    private ArrayList<String> stationArray = new ArrayList<>();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
     private javax.swing.JButton backButton;

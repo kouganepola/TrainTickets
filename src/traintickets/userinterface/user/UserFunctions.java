@@ -3,10 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package traintickets.userinterface;
+package traintickets.userinterface.user;
 
+import traintickets.userinterface.user.Selection;
+import traintickets.userinterface.user.ShowDataFunctions;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import traintickets.userinterface.Login;
 
 /**
  *

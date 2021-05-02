@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package traintickets.userinterface;
+package traintickets.userinterface.user;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -24,42 +24,27 @@ public class StationDataView extends javax.swing.JFrame {
      * Creates new form MonthlyStationView
      * @param parent
      */
-    public StationDataView(Selection parent) {
+    public StationDataView(StationDataFilter parent) {
         initComponents();
         visible = true;
         Toolkit toolkit = getToolkit();
         Dimension size = toolkit.getScreenSize();
-
-        setResizable(false);
 
         setLocation(size.width / 2 - getWidth() / 2, size.height / 2 - getHeight() / 2);
         
         this.parent = parent;
         
         String year = new SimpleDateFormat("yyyy").format(parent.getYear());
-        yearl_demo.setText(year);
+        year_demo.setText(year);
         String month = parent.getMonth();
-        monthl_demo.setText(month);
+        month_demo.setText(month);
 
-        try {
-            String code = parent.getStation();
-            ResultSet rs = DBExecution.getInstance().selectStationByStCode(code);
+        String origin = parent.getOrigin();
+        String destination = parent.getDestination();
+        name_demo.setText("FROM "+origin+" TO "+ destination);
 
-            if (rs.next()) {
-                String name = rs.getString("stname");
+        fillComponents(Integer.parseInt(year), month, origin, destination);
 
-                namel_demo.setText(name);
-                
-                fillComponents(Integer.parseInt(year), month, name);
-                                
-            } else {
-                JOptionPane.showMessageDialog(null, "error!");
-
-            }
-            
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
     }
 
     /**
@@ -72,18 +57,20 @@ public class StationDataView extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        namel_demo = new javax.swing.JLabel();
+        year_demo = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        yearl_demo = new javax.swing.JLabel();
-        monthl_demo = new javax.swing.JLabel();
+        month_demo = new javax.swing.JLabel();
+        name_demo = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         table_demo = new javax.swing.JTable();
         jLabel4 = new javax.swing.JLabel();
         rtnTktTxt = new javax.swing.JTextField();
         bookedTktTxt = new javax.swing.JTextField();
-        issuedTktTxt = new javax.swing.JTextField();
+        totalUsedTktTxt = new javax.swing.JTextField();
         backButton = new javax.swing.JButton();
+        totalIssuedTktTxt = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -93,7 +80,7 @@ public class StationDataView extends javax.swing.JFrame {
         jPanel1.setMinimumSize(new java.awt.Dimension(1440, 590));
         jPanel1.setPreferredSize(new java.awt.Dimension(1440, 490));
 
-        namel_demo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        year_demo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
 
         jLabel2.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
         jLabel2.setText("BOOKED TKT");
@@ -104,9 +91,9 @@ public class StationDataView extends javax.swing.JFrame {
         jScrollPane1.setBackground(new java.awt.Color(51, 204, 255));
 
         table_demo.setAutoCreateRowSorter(true);
-        table_demo.setBackground(new java.awt.Color(0, 204, 204));
+        table_demo.setBackground(new java.awt.Color(190, 212, 210));
         table_demo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 255, 255)));
-        table_demo.setFont(new java.awt.Font("Arial", 0, 16)); // NOI18N
+        table_demo.setFont(new java.awt.Font("Ubuntu", 1, 14)); // NOI18N
         table_demo.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -135,8 +122,9 @@ public class StationDataView extends javax.swing.JFrame {
         jScrollPane1.setViewportView(table_demo);
 
         jLabel4.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
-        jLabel4.setText("TOTAL ISSUED TKT");
+        jLabel4.setText("TOTAL TKT");
 
+        rtnTktTxt.setEditable(false);
         rtnTktTxt.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
         rtnTktTxt.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -144,9 +132,10 @@ public class StationDataView extends javax.swing.JFrame {
             }
         });
 
+        bookedTktTxt.setEditable(false);
         bookedTktTxt.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
-        issuedTktTxt.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+        totalUsedTktTxt.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
 
         backButton.setText("Back");
         backButton.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -165,64 +154,75 @@ public class StationDataView extends javax.swing.JFrame {
             }
         });
 
+        totalIssuedTktTxt.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
+
+        jLabel5.setFont(new java.awt.Font("Arial", 1, 16)); // NOI18N
+        jLabel5.setText("TOTAL ISSUED TKT");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(namel_demo, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1332, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel3)
                                     .addComponent(jLabel2))
-                                .addGap(45, 45, 45)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(101, 101, 101)
-                                        .addComponent(yearl_demo, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(48, 48, 48)
-                                        .addComponent(monthl_demo, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(27, 745, Short.MAX_VALUE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel4)
-                                        .addGap(28, 28, 28)))
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(issuedTktTxt)
-                                    .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(45, 45, 45)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(bookedTktTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(rtnTktTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE))))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 1332, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(rtnTktTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(37, 37, 37)
+                                .addComponent(year_demo, javax.swing.GroupLayout.PREFERRED_SIZE, 72, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(48, 48, 48)
+                                .addComponent(month_demo, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(48, 48, 48)
+                                .addComponent(name_demo, javax.swing.GroupLayout.PREFERRED_SIZE, 317, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(42, 42, 42)
+                                .addComponent(totalIssuedTktTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(42, 42, 42)
+                                .addComponent(totalUsedTktTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(208, 208, 208)
+                                .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(94, 94, 94))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(namel_demo, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(yearl_demo, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(monthl_demo, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(year_demo, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(month_demo, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(name_demo, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(35, 35, 35)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(rtnTktTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(rtnTktTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(totalUsedTktTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel4)
                     .addComponent(bookedTktTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(issuedTktTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
+                    .addComponent(jLabel5)
+                    .addComponent(totalIssuedTktTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(29, 29, 29)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -231,20 +231,16 @@ public class StationDataView extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1380, Short.MAX_VALUE)
+            .addGap(0, 1387, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1380, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1387, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 410, Short.MAX_VALUE)
+            .addGap(0, 423, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 423, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(0, 0, Short.MAX_VALUE)))
         );
 
@@ -273,36 +269,54 @@ public class StationDataView extends javax.swing.JFrame {
         dispose();
     }
     
-    private void fillComponents(Integer year, String month, String origin) {
+    private void fillComponents(Integer year, String month, String origin, String destination) {
 
         try {
-                     
-            ResultSet aggregateResultSet = DBExecution.getInstance().getAggregateStationDataofMonth(year, month, origin);
+                        
+            String bookedTkts = "0";
+            String rtnTkts = "0";
             
-            if(aggregateResultSet.next()){
-                bookedTktTxt.setText(aggregateResultSet.getString("booked_tkt"));
-                rtnTktTxt.setText(aggregateResultSet.getString("returned_tkt"));
-                
-                rtnTktTxt.setEditable(false);
-                bookedTktTxt.setEditable(false);
-            }else{
-                JOptionPane.showMessageDialog(this, "No records entered for station "+origin+" in "+year+" "+month);
-                visible = false;
+            if(!origin.equals("ALL")){
+                ResultSet aggregateResultSet = DBExecution.getInstance().getAggregateStationDataofMonth(year, month, origin);
+                if(aggregateResultSet.next()){
+                    bookedTkts = aggregateResultSet.getString("booked_tkt");
+                    rtnTkts = aggregateResultSet.getString("returned_tkt");
+                    bookedTktTxt.setText(bookedTkts);
+                    rtnTktTxt.setText(rtnTkts);
+
+                    rtnTktTxt.setEditable(false);
+                    bookedTktTxt.setEditable(false);
+                }else{
+                    JOptionPane.showMessageDialog(this, "No records entered for station "+origin+" in "+year+" "+month);
+                    visible = false;
+                }
             }
             
-            ResultSet resultSet = DBExecution.getInstance().getStationTicketDataofMonth(year, month, origin);
+            ResultSet resultSet = DBExecution.getInstance().getStationTicketDataofMonth(year, month, origin, destination);
             DefaultTableModel model = (DefaultTableModel) table_demo.getModel();
             
             Integer totalTkts = 0;
-
+            String stationType = "to";
+            if(origin.equals("ALL")){
+                stationType = "from";
+                 table_demo.getColumnModel().getColumn(0).setHeaderValue("From");
+            }else{
+                 table_demo.getColumnModel().getColumn(0).setHeaderValue("To");
+            }
+            
             while (resultSet.next()) {
           
-                model.addRow(new Object[]{ resultSet.getString("to"),resultSet.getInt("1stCls"),resultSet.getInt("2ndCls"),resultSet.getInt("3rdClsA"),resultSet.getInt("3rdClsB"),resultSet.getInt("3rdClsC"),resultSet.getInt("total")});
+                model.addRow(new Object[]{ resultSet.getString(stationType),resultSet.getInt("1stCls"),resultSet.getInt("2ndCls"),resultSet.getInt("3rdClsA"),resultSet.getInt("3rdClsB"),resultSet.getInt("3rdClsC"),resultSet.getInt("total")});
                 totalTkts += resultSet.getInt("total");
             } 
+                        
+            totalUsedTktTxt.setText(totalTkts.toString());   
+            totalUsedTktTxt.setEditable(false);
             
-            issuedTktTxt.setText(totalTkts.toString());   
-            issuedTktTxt.setEditable(false);
+            totalTkts += Integer.parseInt(bookedTkts);
+            totalTkts += Integer.parseInt(rtnTkts);
+            
+            totalIssuedTktTxt.setText(totalTkts.toString());
             
             table_demo.setEnabled(false);
                         
@@ -321,16 +335,18 @@ public class StationDataView extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
     private javax.swing.JTextField bookedTktTxt;
-    private javax.swing.JTextField issuedTktTxt;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel monthl_demo;
-    private javax.swing.JLabel namel_demo;
+    private javax.swing.JLabel month_demo;
+    private javax.swing.JLabel name_demo;
     private javax.swing.JTextField rtnTktTxt;
     private javax.swing.JTable table_demo;
-    private javax.swing.JLabel yearl_demo;
+    private javax.swing.JTextField totalIssuedTktTxt;
+    private javax.swing.JTextField totalUsedTktTxt;
+    private javax.swing.JLabel year_demo;
     // End of variables declaration//GEN-END:variables
 }

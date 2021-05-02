@@ -129,6 +129,7 @@
                               </Group>
                               <Component id="returnedtkt_kni" min="-2" pref="30" max="-2" attributes="0"/>
                           </Group>
+                          <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <Group type="103" groupAlignment="3" attributes="0">
@@ -142,9 +143,9 @@
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                           <Component id="operationButton" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="separate" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="jScrollPane2" min="-2" pref="217" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="209" max="-2" attributes="0"/>
               </Group>
@@ -303,9 +304,8 @@
           <SubComponents>
             <Component class="javax.swing.JTable" name="form_table">
               <Properties>
-                <Property name="autoCreateRowSorter" type="boolean" value="true"/>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="cc" green="cc" red="0" type="rgb"/>
+                  <Color blue="d2" green="d4" red="be" type="rgb"/>
                 </Property>
                 <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
                   <Border info="org.netbeans.modules.form.compat2.border.LineBorderInfo">
@@ -348,6 +348,9 @@
                   <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="form_tableKeyPressed"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

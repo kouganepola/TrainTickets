@@ -5,7 +5,7 @@
  */
 package traintickets;
 
-import traintickets.userinterface.UserFunctions;
+import traintickets.userinterface.user.UserFunctions;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 

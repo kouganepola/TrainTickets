@@ -6,8 +6,15 @@
 package traintickets.userinterface.components;
 
 import java.awt.Component;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.TableCellRenderer;
 
 /**
@@ -18,9 +25,11 @@ public class ComboBoxRenderer extends JComboBox implements TableCellRenderer
 {
     public ComboBoxRenderer()
     {
+
         setBorder(null);
     }
 
+    @Override
     public Component getTableCellRendererComponent(
         JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column)
     {
@@ -29,4 +38,6 @@ public class ComboBoxRenderer extends JComboBox implements TableCellRenderer
 
         return this;
     }
+    
+ 
 }

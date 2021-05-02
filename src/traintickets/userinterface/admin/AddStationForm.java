@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package traintickets.userinterface;
+package traintickets.userinterface.admin;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -141,7 +141,8 @@ public class AddStationForm extends javax.swing.JFrame {
 
         originCheck.setBackground(new java.awt.Color(0, 153, 153));
         originCheck.setFont(new java.awt.Font("Abyssinica SIL", 1, 14)); // NOI18N
-        originCheck.setText("Origin");
+        originCheck.setSelected(true);
+        originCheck.setText("Attended");
         originCheck.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 originCheckActionPerformed(evt);

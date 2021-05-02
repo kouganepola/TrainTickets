@@ -3,30 +3,39 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package traintickets.userinterface;
+package traintickets.userinterface.user;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.sql.ResultSet;
+import java.awt.event.ItemEvent;
 import java.text.SimpleDateFormat;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
-import traintickets.core.DBExecution;
+import static traintickets.userinterface.user.Selection.codetxt;
+import static traintickets.userinterface.user.Selection.monthtxt;
+import static traintickets.userinterface.user.Selection.yeartxt;
 
 /**
  *
- * @author Sanduni Alwis
+ * @author koumudi
  */
-public class Selection extends javax.swing.JFrame {
+public class OverallStatSelection extends javax.swing.JFrame {
 
     /**
-     * Creates new form Selection
-     * @param parent
+     * Creates new form OverallView
      */
-    public Selection(JFrame parent, String operation) {
+    public OverallStatSelection(JFrame parent) {
         initComponents();
+                
+        Toolkit toolkit = getToolkit();
+        setResizable(false);
+        Dimension size = toolkit.getScreenSize();
+        setLocation(size.width / 2 - getWidth() / 2, size.height / 2 - getHeight() / 2);
+        
+        this.parent = parent;
         
         yeartxt.setEditor(new JSpinner.DateEditor(yeartxt, new SimpleDateFormat("yyyy").toPattern()));
         JSpinner.DefaultEditor yearEditor = (JSpinner.DefaultEditor)yeartxt.getEditor();
@@ -35,14 +44,10 @@ public class Selection extends javax.swing.JFrame {
         JSpinner.DefaultEditor monthEditor = (JSpinner.DefaultEditor)monthtxt.getEditor();
         monthEditor.getTextField().setHorizontalAlignment(JTextField.CENTER);
         
-        
-        Toolkit toolkit = getToolkit();
-        setResizable(false);
-        Dimension size = toolkit.getScreenSize();
-        setLocation(size.width / 2 - getWidth() / 2, size.height / 2 - getHeight() / 2);
-        
-        this.operation = operation;
-        this.parent = parent;
+        if(StatCombo.getSelectedItem().toString().equals("Monthly Overall")){
+            codetxt.disable();
+            codetxt.setBackground(Color.LIGHT_GRAY);
+        }
     }
 
     /**
@@ -59,14 +64,15 @@ public class Selection extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         okButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
-        codetxt = new javax.swing.JTextField();
-        jLabel4 = new javax.swing.JLabel();
         backButton = new javax.swing.JButton();
         monthtxt = new javax.swing.JSpinner();
         lbl_code = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        StatCombo = new javax.swing.JComboBox<>();
+        codetxt = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(0, 102, 102));
 
         jPanel2.setBackground(new java.awt.Color(0, 153, 153));
 
@@ -103,22 +109,6 @@ public class Selection extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         jLabel2.setText("Year");
 
-        codetxt.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        codetxt.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        codetxt.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                codetxtActionPerformed(evt);
-            }
-        });
-        codetxt.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                codetxtKeyPressed(evt);
-            }
-        });
-
-        jLabel4.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        jLabel4.setText("Station Code");
-
         backButton.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
         backButton.setText("Back");
         backButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -144,34 +134,80 @@ public class Selection extends javax.swing.JFrame {
 
         lbl_code.setForeground(new java.awt.Color(204, 18, 18));
 
+        jLabel4.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel4.setText("Statistic");
+
+        StatCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Monthly Overall", "Annually Overall", "Annually Station" }));
+        StatCombo.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                StatComboItemStateChanged(evt);
+            }
+        });
+        StatCombo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                StatComboActionPerformed(evt);
+            }
+        });
+
+        codetxt.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        codetxt.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        codetxt.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                codetxtActionPerformed(evt);
+            }
+        });
+        codetxt.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                codetxtKeyPressed(evt);
+            }
+        });
+
+        jLabel5.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        jLabel5.setText("Station Code");
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(56, Short.MAX_VALUE)
+                .addContainerGap(48, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(lbl_code, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                             .addComponent(backButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(okButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel4)
-                                .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING))
-                            .addGap(29, 29, 29)
+                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING))
+                                            .addGap(81, 81, 81))
+                                        .addGroup(jPanel2Layout.createSequentialGroup()
+                                            .addComponent(jLabel4)
+                                            .addGap(67, 67, 67)))
+                                    .addGap(21, 21, 21))
+                                .addGroup(jPanel2Layout.createSequentialGroup()
+                                    .addComponent(jLabel5)
+                                    .addGap(50, 50, 50)))
                             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(yeartxt)
-                                .addComponent(codetxt, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(monthtxt, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(codetxt)
+                                .addComponent(StatCombo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(monthtxt)
+                                .addComponent(yeartxt, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(51, 51, 51))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(46, 46, 46)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(StatCombo, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(45, 45, 45)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(yeartxt, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -180,17 +216,17 @@ public class Selection extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(monthtxt, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addGap(45, 45, 45)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(codetxt, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lbl_code, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(codetxt, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(backButton)
                     .addComponent(okButton))
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addGap(36, 36, 36))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -201,52 +237,56 @@ public class Selection extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void yeartxtStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_yeartxtStateChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_yeartxtStateChanged
+
+    private void yeartxtKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_yeartxtKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_yeartxtKeyPressed
+
+    private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
+
+        executeSelection();
+    }//GEN-LAST:event_okButtonActionPerformed
+
+    private void okButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_okButtonKeyPressed
+        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
+            executeSelection();
+
+        }
+    }//GEN-LAST:event_okButtonKeyPressed
 
     private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
 
         backButtonFunction();
     }//GEN-LAST:event_backButtonActionPerformed
 
-    private void okButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_okButtonActionPerformed
-
-        executeSelection();
-
-    }//GEN-LAST:event_okButtonActionPerformed
-
-    public Object getYear(){
-        return yeartxt.getValue();
-    }
-    
-    public String getMonth(){
-        return monthtxt.getValue().toString();
-    }
-        
-    public String getStation(){
-        return codetxt.getText();
-    }
-
-    private void yeartxtStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_yeartxtStateChanged
+    private void backButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_backButtonKeyPressed
         // TODO add your handling code here:
-    }//GEN-LAST:event_yeartxtStateChanged
+        if (evt.getKeyCode()== java.awt.event.KeyEvent.VK_ENTER){
+            backButtonFunction();
+
+        }
+    }//GEN-LAST:event_backButtonKeyPressed
+
+    private void monthtxtKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_monthtxtKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_monthtxtKeyPressed
+
+    private void StatComboActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StatComboActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_StatComboActionPerformed
 
     private void codetxtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_codetxtActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_codetxtActionPerformed
-
-    private void yeartxtKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_yeartxtKeyPressed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_yeartxtKeyPressed
-
-    private void monthtxtKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_monthtxtKeyPressed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_monthtxtKeyPressed
 
     private void codetxtKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_codetxtKeyPressed
 
@@ -255,86 +295,67 @@ public class Selection extends javax.swing.JFrame {
             executeSelection();
 
         }
-
     }//GEN-LAST:event_codetxtKeyPressed
-        
-    private void okButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_okButtonKeyPressed
-        if (evt.getKeyCode() == java.awt.event.KeyEvent.VK_ENTER) {
-            executeSelection();
 
-        }
-    }//GEN-LAST:event_okButtonKeyPressed
-
-    private void backButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_backButtonKeyPressed
+    private void StatComboItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_StatComboItemStateChanged
         // TODO add your handling code here:
-        if (evt.getKeyCode()== java.awt.event.KeyEvent.VK_ENTER){ 
-            backButtonFunction();
-
+        int state = evt.getStateChange();
+        if(evt.getStateChange()== ItemEvent.SELECTED){
+            Object selected[] = evt.getItemSelectable().getSelectedObjects();
+            if(selected.length>0){
+                switch((String)selected[0]){
+                    case "Monthly Overall":
+                        monthtxt.setEnabled(true);
+                        yeartxt.setEnabled(true);
+                        codetxt.disable();
+                        codetxt.setBackground(Color.LIGHT_GRAY);
+                        break;
+                    case "Annually Overall":
+                        System.out.print("AO");
+                        monthtxt.setEnabled(false);
+                        yeartxt.setEnabled(false);
+                        codetxt.disable();
+                        codetxt.setBackground(Color.LIGHT_GRAY);
+                        break;
+                    case "Annually Station":
+                        System.out.print("AS");
+                        monthtxt.setEnabled(false);
+                        yeartxt.setEnabled(false);
+                        codetxt.enable();
+                        codetxt.setBackground(Color.WHITE);
+                        break;
+                        
+                }
+            }
         }
-    }//GEN-LAST:event_backButtonKeyPressed
+    }//GEN-LAST:event_StatComboItemStateChanged
 
     private void backButtonFunction(){
         parent.setVisible(true);
         dispose();
     }
-    
-    public String getOperation(){
-        return this.operation;
-    }
-    
+
     private void executeSelection(){
         
-        if (codetxt.getText().trim().isEmpty()) {
-            lbl_code.setText(" ST CODE is empty!");
-
-        } else {
-
-            try {
-                
-                ResultSet rs = DBExecution.getInstance().selectStationByStCode(codetxt.getText());
-
-                if (rs.next()) {
-                    
-                    if(parent instanceof UserFunctions){
-                        StationDataForm form = new StationDataForm(this);
-                        if(form.getVisible()){                        
-                            form.setVisible(true);
-                            setVisible(false);
-                        }else{
-                            form.dispose();
-                        }
-                        
-                    }else if (parent instanceof ShowDataFunctions){
-                        StationDataView view = new StationDataView(this);
-                        
-                        if(view.getVisible()){                        
-                            view.setVisible(true);
-                            setVisible(false);
-                        }else{
-                            view.dispose();
-                        }
-
-                    }
-                } else {
+        if(StatCombo.getSelectedItem().toString().equals("Annually Station") && codetxt.getText().equals("")){
                     JOptionPane.showMessageDialog(null, "Invalid ST CODE!");
                     codetxt.setText("");
-
-                }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, e);
-            }
+                    return;
         }
-    
+        OverallStatView view = new OverallStatView(this, StatCombo.getSelectedItem().toString(), new SimpleDateFormat("yyyy").format(yeartxt.getValue()), monthtxt.getValue().toString(), codetxt.getText());
+        view.setVisible(true);
+        setVisible(false);
     }
     
-    private String operation;
-    private javax.swing.JFrame parent;
+    private JFrame parent;
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> StatCombo;
     private javax.swing.JButton backButton;
     public static javax.swing.JTextField codetxt;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JLabel lbl_code;
     public static javax.swing.JSpinner monthtxt;

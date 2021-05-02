@@ -50,6 +50,7 @@
                       <Component id="addStationBtn" alignment="0" pref="201" max="32767" attributes="0"/>
                       <Component id="rmvUserBtn" alignment="1" max="32767" attributes="0"/>
                       <Component id="rmvStationBtn" alignment="0" pref="201" max="32767" attributes="0"/>
+                      <Component id="manageAnomaliesBtn" alignment="0" pref="201" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -71,9 +72,11 @@
                   <Component id="rmvUserBtn" min="-2" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
                   <Component id="addStationBtn" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="30" max="32767" attributes="0"/>
+                  <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
                   <Component id="rmvStationBtn" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                  <Component id="manageAnomaliesBtn" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="42" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="logoutBtn" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="resetPwdBtn" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
@@ -188,6 +191,24 @@
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rmvStationBtnActionPerformed"/>
             <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="rmvStationBtnKeyPressed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="manageAnomaliesBtn">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Arial" size="14" style="1"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Data Anomalies"/>
+            <Property name="actionCommand" type="java.lang.String" value="Show Data"/>
+            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+              <Border info="org.netbeans.modules.form.compat2.border.SoftBevelBorderInfo">
+                <BevelBorder/>
+              </Border>
+            </Property>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="manageAnomaliesBtnActionPerformed"/>
+            <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="manageAnomaliesBtnKeyPressed"/>
           </Events>
         </Component>
       </SubComponents>

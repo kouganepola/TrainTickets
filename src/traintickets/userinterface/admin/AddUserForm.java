@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package traintickets.userinterface;
+package traintickets.userinterface.admin;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -17,8 +17,8 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import traintickets.core.DBConnector;
 import traintickets.core.DBExecution;
-import static traintickets.userinterface.Selection.monthtxt;
-import static traintickets.userinterface.Selection.yeartxt;
+import static traintickets.userinterface.user.Selection.monthtxt;
+import static traintickets.userinterface.user.Selection.yeartxt;
 
 /**
  *

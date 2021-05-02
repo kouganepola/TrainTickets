@@ -4,15 +4,11 @@
  * and open the template in the editor.
  */
 
-package traintickets.userinterface;
+package traintickets.userinterface.user;
 
-import traintickets.userinterface.UserFunctions;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import javax.swing.JFrame;
-import traintickets.annOverSelect;
-import traintickets.annStatSelect;
-import traintickets.monthOverSelect;
 
 /**
  *
@@ -40,7 +36,7 @@ public class ShowDataFunctions extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        monthlyOverall = new javax.swing.JButton();
+        overallBtn = new javax.swing.JButton();
         monthlyStation = new javax.swing.JButton();
         backButton = new javax.swing.JButton();
 
@@ -49,12 +45,17 @@ public class ShowDataFunctions extends javax.swing.JFrame {
 
         jPanel1.setBackground(new java.awt.Color(0, 153, 153));
 
-        monthlyOverall.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
-        monthlyOverall.setText("Overall");
-        monthlyOverall.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        monthlyOverall.addActionListener(new java.awt.event.ActionListener() {
+        overallBtn.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        overallBtn.setText("Overall");
+        overallBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        overallBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                monthlyOverallActionPerformed(evt);
+                overallBtnActionPerformed(evt);
+            }
+        });
+        overallBtn.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                overallBtnKeyPressed(evt);
             }
         });
 
@@ -95,7 +96,7 @@ public class ShowDataFunctions extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(monthlyStation, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 142, Short.MAX_VALUE)
                     .addComponent(backButton, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(monthlyOverall, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(overallBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(112, 112, 112))
         );
         jPanel1Layout.setVerticalGroup(
@@ -104,23 +105,22 @@ public class ShowDataFunctions extends javax.swing.JFrame {
                 .addGap(52, 52, 52)
                 .addComponent(monthlyStation)
                 .addGap(18, 18, 18)
-                .addComponent(monthlyOverall)
+                .addComponent(overallBtn)
                 .addGap(18, 18, 18)
                 .addComponent(backButton)
-                .addGap(52, 52, 52))
+                .addContainerGap())
         );
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 220));
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 260));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void monthlyOverallActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_monthlyOverallActionPerformed
+    private void overallBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_overallBtnActionPerformed
         // TODO add your handling code here:
-        monthOverSelect sele = new monthOverSelect(this);
-        sele.setVisible(true);
-        setVisible(false);
-    }//GEN-LAST:event_monthlyOverallActionPerformed
+        getOverallStatisticsSelection();
+        
+    }//GEN-LAST:event_overallBtnActionPerformed
 
     private void monthlyStationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_monthlyStationActionPerformed
         // TODO add your handling code here:
@@ -147,9 +147,23 @@ public class ShowDataFunctions extends javax.swing.JFrame {
         
     }//GEN-LAST:event_backButtonKeyPressed
 
+    private void overallBtnKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_overallBtnKeyPressed
+        // TODO add your handling code here:
+        if (evt.getKeyCode()== java.awt.event.KeyEvent.VK_ENTER){ 
+            getOverallStatisticsSelection();
+        }
+        
+    }//GEN-LAST:event_overallBtnKeyPressed
+
    private void getMonthlyOverallDataOfStation(){
-        Selection select = new Selection(this, "Show");
+        StationDataFilter select = new StationDataFilter(this);
         select.setVisible(true);
+        setVisible(false);
+   }
+   
+   private void getOverallStatisticsSelection(){
+        OverallStatSelection statSelection = new OverallStatSelection(this);
+        statSelection.setVisible(true);
         setVisible(false);
    }
     
@@ -161,8 +175,8 @@ public class ShowDataFunctions extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JButton monthlyOverall;
     private javax.swing.JButton monthlyStation;
+    private javax.swing.JButton overallBtn;
     // End of variables declaration//GEN-END:variables
 
 }

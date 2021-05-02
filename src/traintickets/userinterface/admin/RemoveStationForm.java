@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package traintickets.userinterface;
+package traintickets.userinterface.admin;
 
+import traintickets.userinterface.admin.AddStationForm;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.sql.ResultSet;

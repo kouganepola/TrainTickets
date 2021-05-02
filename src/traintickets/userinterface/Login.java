@@ -6,6 +6,8 @@
 package traintickets.userinterface;
 
 
+import traintickets.userinterface.user.UserFunctions;
+import traintickets.userinterface.admin.AdminFunctions;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;

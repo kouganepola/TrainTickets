@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package traintickets.userinterface;
+package traintickets.userinterface.admin;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import traintickets.userinterface.Login;
 
 /**
  *
@@ -41,6 +42,7 @@ public class AdminFunctions extends javax.swing.JFrame {
         logoutBtn = new javax.swing.JButton();
         rmvUserBtn = new javax.swing.JButton();
         rmvStationBtn = new javax.swing.JButton();
+        manageAnomaliesBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -126,6 +128,21 @@ public class AdminFunctions extends javax.swing.JFrame {
             }
         });
 
+        manageAnomaliesBtn.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        manageAnomaliesBtn.setText("Data Anomalies");
+        manageAnomaliesBtn.setActionCommand("Show Data");
+        manageAnomaliesBtn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        manageAnomaliesBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                manageAnomaliesBtnActionPerformed(evt);
+            }
+        });
+        manageAnomaliesBtn.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                manageAnomaliesBtnKeyPressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -136,7 +153,8 @@ public class AdminFunctions extends javax.swing.JFrame {
                     .addComponent(addUserBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(addStationBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
                     .addComponent(rmvUserBtn, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(rmvStationBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE))
+                    .addComponent(rmvStationBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
+                    .addComponent(manageAnomaliesBtn, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
@@ -154,9 +172,11 @@ public class AdminFunctions extends javax.swing.JFrame {
                 .addComponent(rmvUserBtn)
                 .addGap(30, 30, 30)
                 .addComponent(addStationBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addGap(26, 26, 26)
                 .addComponent(rmvStationBtn)
-                .addGap(30, 30, 30)
+                .addGap(29, 29, 29)
+                .addComponent(manageAnomaliesBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(logoutBtn)
                     .addComponent(resetPwdBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -235,6 +255,18 @@ public class AdminFunctions extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_rmvStationBtnKeyPressed
 
+    private void manageAnomaliesBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manageAnomaliesBtnActionPerformed
+        // TODO add your handling code here:
+        manageDataAnomaliesBtnFunction();
+    }//GEN-LAST:event_manageAnomaliesBtnActionPerformed
+
+    private void manageAnomaliesBtnKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_manageAnomaliesBtnKeyPressed
+        // TODO add your handling code here:
+                if (evt.getKeyCode()== java.awt.event.KeyEvent.VK_ENTER){ 
+                    manageDataAnomaliesBtnFunction();
+        }
+    }//GEN-LAST:event_manageAnomaliesBtnKeyPressed
+
     private void addStationBtnFunction(){
         AddStationForm addUser = new AddStationForm(this);
         addUser.setVisible(true);
@@ -258,12 +290,19 @@ public class AdminFunctions extends javax.swing.JFrame {
         rmvUser.setVisible(true);
         setVisible(false);
     }
+    
+    private void manageDataAnomaliesBtnFunction(){
+        ManageAnomalies mngAnomalies = new ManageAnomalies(this);
+        mngAnomalies.setVisible(true);
+        setVisible(false);
+    }
       
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addStationBtn;
     private javax.swing.JButton addUserBtn;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JButton logoutBtn;
+    private javax.swing.JButton manageAnomaliesBtn;
     private javax.swing.JButton resetPwdBtn;
     private javax.swing.JButton rmvStationBtn;
     private javax.swing.JButton rmvUserBtn;
