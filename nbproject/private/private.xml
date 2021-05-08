@@ -4,14 +4,11 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/home/koumudi/NetBeansProjects/TrainTickets/src/traintickets/userinterface/user/ShowDataFunctions.java</file>
-            <file>file:/home/koumudi/NetBeansProjects/TrainTickets/src/traintickets/userinterface/user/Selection.java</file>
-            <file>file:/home/koumudi/NetBeansProjects/TrainTickets/src/traintickets/core/DBExecution.java</file>
+            <file>file:/home/koumudi/NetBeansProjects/TrainTickets/src/traintickets/userinterface/user/StationDataFilter.java</file>
+            <file>file:/home/koumudi/NetBeansProjects/TrainTickets/src/traintickets/userinterface/components/ComboBoxEditor.java</file>
             <file>file:/home/koumudi/NetBeansProjects/TrainTickets/src/traintickets/userinterface/user/StationDataForm.java</file>
-            <file>file:/home/koumudi/NetBeansProjects/TrainTickets/src/traintickets/userinterface/user/StationDataView.java</file>
-            <file>file:/home/koumudi/NetBeansProjects/TrainTickets/src/traintickets/userinterface/user/OverallStatSelection.java</file>
-            <file>file:/home/koumudi/NetBeansProjects/TrainTickets/src/traintickets/userinterface/user/UserFunctions.java</file>
-            <file>file:/home/koumudi/NetBeansProjects/TrainTickets/src/traintickets/userinterface/admin/RemoveUserForm.java</file>
-            <file>file:/home/koumudi/NetBeansProjects/TrainTickets/src/traintickets/userinterface/user/OverallStatView.java</file>
+            <file>file:/home/koumudi/NetBeansProjects/TrainTickets/src/traintickets/userinterface/components/ComboBoxRenderer.java</file>
+            <file>file:/home/koumudi/NetBeansProjects/TrainTickets/src/traintickets/userinterface/components/TextHandler.java</file>
         </group>
     </open-files>
 </project-private>

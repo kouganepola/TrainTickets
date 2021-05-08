@@ -94,20 +94,7 @@ public class ComboBoxEditor extends AbstractCellEditor
                         table.repaint();
                         
                     }
-                });
-                
-                combo.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent ie) {
-
-                if(ie.getStateChange()==ItemEvent.SELECTED){
-                        textHandler.reset();
-                        table.repaint();
-                
-                    }
-                }
-                });
-        
+                });        
     }
      
     @Override
